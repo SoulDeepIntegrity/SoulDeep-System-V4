@@ -1,19 +1,17 @@
 // 1. Setup - Minimal Cloud-Ready Code
+require('dotenv').config(); // Load environment variables from .env
 const express = require('express'); 
 const app = express(); 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json()); // For handling API data
-
-// IMPORTANT: Cloud hosts use environment variables for the port.
-// We use process.env.PORT for cloud, or default to 3000 locally.
+app.use(express.json());
 const port = process.env.PORT || 3000; 
 
 // 2. Frontend Configuration (EJS)
 app.set('view engine', 'ejs');
 app.set('views', './views'); 
 
-// 3. Database & AI Service Connections (PERMANENTLY DISABLED FOR CLOUD STABILITY)
-// We will re-add a cloud-based AI connection later (Google Generative AI).
+// 3. AI Service Connection
+const { generatePersona } = require('./geminiService'); // NEW: Import the cloud AI function
 
 // 4. Routes
 
@@ -22,17 +20,34 @@ app.get('/', (req, res) => {
     res.render('index', { message: 'Phase 1: Integrity Protocol Core is Ready. AI OFFLINE.' });
 });
 
-// Route to handle form submission (POST) - TEMPORARY SUCCESS CHECK
+// Route to handle form submission (POST) - Calls the Gemini AI
 app.post('/generate', async (req, res) => {
-    // This confirms your frontend and backend are perfectly connected.
     const rawAnswers = req.body; 
-    console.log("Form data received, ready for AI synthesis:", rawAnswers);
 
-    // This is a temporary success message. We will integrate the cloud AI here next.
-    res.send(`SUCCESS! Form data received. AI analysis is currently running offline. You submitted: ${JSON.stringify(rawAnswers)}`);
+    try {
+        // 1. Perform Persona Synthesis using the cloud AI (Gemini)
+        const persona = await generatePersona(rawAnswers);
+
+        // 2. SIMULATED Success (Since Firebase is offline)
+        const summary = `
+        Persona Generated!
+        - Analysis: ${persona.persona_analysis}
+        - Seams: ${persona.B15_seams_mechanism}
+        - TKI Score: ${persona.B21_tki_score}
+        - Principle: ${persona.structural_principle}
+        `;
+
+        // This is the success message sent back to the browser
+        res.send(`SUCCESS! Persona Synthesis Complete (AI Stable). ${summary}`);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send(`ERROR: Synthesis Failed. Check terminal for Gemini API key status. Message: ${error.message}`);
+    }
 });
 
 // 5. Start Server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
