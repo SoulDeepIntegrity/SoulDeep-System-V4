@@ -1,107 +1,496 @@
-<form id="persona-form" action="/generate" method="POST" class="mt-8 bg-white p-6 md:p-8 rounded-xl shadow-lg border border-slate-200">
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoulDeep - Show Me The Seams (Final Blueprint)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/index.umd.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <h3 class="text-2xl font-bold text-slate-900 mb-6 display-font">1.1 Integrity Protocol Core (The Seams Deep-Dive)</h3>
+    <style>
+        /* Custom Styles for Blueprint V4 Aesthetic */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #0f172a; /* slate-900 */
+        }
+        h1, h2, h3, h4, .display-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        /* Vertical Timeline Line */
+        .timeline-line {
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #cbd5e1;
+            z-index: 0;
+        }
+        /* Accordion/Phase Card Styling */
+        .phase-card {
+            transition: all 0.3s ease;
+        }
+        .phase-header {
+            cursor: pointer;
+        }
+        .phase-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease;
+        }
+        .phase-content.closed {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+        .rotate-icon {
+            transform: rotate(45deg);
+        }
+        /* Interactive Element Styling */
+        .protocol-btn {
+            @apply flex items-center justify-start py-3 px-4 rounded-lg font-medium transition-colors duration-200 border border-slate-200;
+            @apply bg-white text-slate-700 hover:bg-indigo-50 hover:text-indigo-700;
+        }
+        .protocol-btn.completed {
+            @apply bg-emerald-100 text-emerald-800 border-emerald-300;
+        }
+        .protocol-btn.completed:hover {
+            @apply bg-emerald-200;
+        }
+        .status-badge {
+            @apply text-xs px-2 py-0.5 rounded-full font-semibold ml-2;
+        }
+        .status-badge.pending {
+            @apply bg-slate-200 text-slate-600;
+        }
+        .status-badge.completed {
+            @apply bg-emerald-500 text-white;
+        }
+        /* Disabled styles */
+        .protocol-btn[disabled] {
+            @apply opacity-50 cursor-not-allowed;
+        }
+    </style>
+</head>
+<body>
 
-    <div class="mb-6 p-4 border border-indigo-200 rounded-lg bg-indigo-50">
-        <h4 class="font-semibold text-indigo-700 mb-3 display-font">Identity Gate (B19 A)</h4>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="form-group">
-                <label for="gender_identity" class="block text-sm font-medium text-slate-700">Gender Identity:</label>
-                <input type="text" id="gender_identity" name="gender_identity" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2" required>
+    <nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-lg border-b border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-2">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2C6.477 2 2 6.477 2 12C2 17.523 6.477 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2ZM12 4V10.5L19.99 12C19.99 16.425 16.425 19.99 12 19.99C7.575 19.99 4 16.425 4 12C4 7.575 7.575 4 12 4Z" fill="#1e293b"/>
+                        <path d="M12 4C14.7614 4 17.1517 5.48041 18.5997 7.73477L16 10.5H12V4ZM12 19.99C9.23858 19.99 6.84831 18.5096 5.4003 16.2552L8 13.5H12V19.99Z" fill="#6366f1"/>
+                        <path d="M16 10.5L18.5997 7.73477C19.2227 8.78317 19.6416 9.89736 19.866 11.0505L12 10.5V13.5L19.866 12.9495C19.6416 14.1026 19.2227 15.2168 18.5997 16.2652L16 13.5H12V10.5H16Z" fill="#6366f1"/>
+                    </svg>
+                    <span class="text-xl font-bold tracking-wider display-font">SoUlDeeP</span>
+                </div>
+                <div class="hidden md:flex space-x-6 text-sm font-medium">
+                    <a href="#architecture" class="text-indigo-400 font-bold">Blueprint</a>
+                    <span class="text-slate-600">|</span>
+                    <span id="auth-status" class="text-slate-400">System Status: Authenticated</span>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="sexual_orientation" class="block text-sm font-medium text-slate-700">Sexual Orientation:</label>
-                <input type="text" id="sexual_orientation" name="sexual_orientation" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2" required>
-            </div>
-            <div class="form-group">
-                <label for="validated_age" class="block text-sm font-medium text-slate-700">Validated Age (18+):</label>
-                <input type="number" id="validated_age" name="validated_age" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2" min="18" required>
-            </div>
         </div>
-    </div>
+    </nav>
 
-    <div class="form-group mb-6">
-        <label for="B14" class="block text-lg font-bold text-slate-900 mb-2">1. The Scar (B14):</label>
-        <p class="text-sm text-slate-600 mb-2">Measures honesty, vulnerability capacity, and risk tolerance. Describe one major painful truth you avoid sharing early in relationships, and the cost of maintaining that secret.</p>
-        <textarea id="B14" name="B14" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
-    </div>
-
-    <div class="form-group mb-6">
-        <label for="B16" class="block text-lg font-bold text-slate-900 mb-2">2. The Foundation (B16):</label>
-        <p class="text-sm text-slate-600 mb-2">Defines the limits of compatibility and required emotional security. Describe the one action or phrase that instantly makes you feel unsafe/disrespected in a conflict, requiring you to withdraw or shut down.</p>
-        <textarea id="B16" name="B16" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
-    </div>
-
-    <div class="form-group mb-6">
-        <label for="B15" class="block text-lg font-bold text-slate-900 mb-2">3. Show Me The Seams (B15 - The Key):</label>
-        <p class="text-sm text-slate-600 mb-2">Identifies your relational vulnerability/growth area. What is your **go-to toxic coping mechanism** when you feel emotionally overwhelmed or deeply hurt?</p>
-        <textarea id="B15" name="B15" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
-    </div>
-
-    <div class="mb-6 p-4 border border-rose-300 rounded-lg bg-rose-50">
-        <h4 class="font-semibold text-rose-800 mb-3 display-font">TKI Conflict Score Questions (B21)</h4>
-
-        <div class="form-group mb-4">
-            <label for="B21_A" class="block text-sm font-medium text-slate-700">When a conflict starts, do you prioritize getting your own needs met (1) or maintaining peace (5)?</label>
-            <input type="range" id="B21_A" name="B21_A" min="1" max="5" step="0.5" class="mt-2 w-full" oninput="document.getElementById('B21_A_val').innerText = this.value" required>
-            <div class="flex justify-between text-xs text-slate-600 mt-1">
-                <span>1 (My Needs)</span>
-                <span id="B21_A_val">3</span>
-                <span>5 (Peace/Avoidance)</span>
+    <header class="relative bg-slate-900 text-white pt-20 pb-24 overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#4f46e5_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <div class="inline-block px-3 py-1 mb-6 text-xs font-semibold tracking-wider text-indigo-400 uppercase bg-slate-800 rounded-full border border-indigo-500/30">
+                Final Consolidated Blueprint
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight leading-tight">
+                Compatibility Built on Truth: <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-rose-400">Show Me The Seams.</span>
+            </h1>
+            <p class="text-xl text-slate-400 max-w-2xl mx-auto">
+                Core Thesis: Compatibility is determined by the capacity for conflict resolution.
+                <br><span class="text-sm text-slate-500 mt-2 block">Data Injection &rarr; Conflict Simulation &rarr; Authentic Unveil</span>
+            </p>
+            <div class="mt-10 flex justify-center gap-4">
+                <a href="#architecture" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-indigo-500/25">
+                    Start Integrity Protocol
+                </a>
             </div>
         </div>
+    </header>
 
-        <div class="form-group">
-            <label for="B21_B" class="block text-sm font-medium text-slate-700">When criticized, do you seek common ground (1) or avoid the person entirely (5)?</label>
-            <input type="range" id="B21_B" name="B21_B" min="1" max="5" step="0.5" class="mt-2 w-full" oninput="document.getElementById('B21_B_val').innerText = this.value" required>
-            <div class="flex justify-between text-xs text-slate-600 mt-1">
-                <span>1 (Common Ground)</span>
-                <span id="B21_B_val">3</span>
-                <span>5 (Avoidance)</span>
+    <main class="max-w-5xl mx-auto px-4 py-16">
+
+        <section id="diagnostics" class="mb-16">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-2 display-font">Phase 1 Status & Progress</h2>
+                <p class="text-slate-600">Total Steps: 7 | Completed: <span id="progress-text">0/7</span></p>
+                <div class="mt-4 h-2 w-full max-w-sm mx-auto bg-slate-200 rounded-full overflow-hidden">
+                    <div id="progress-indicator" class="h-full bg-emerald-500 transition-all duration-500" style="width: 0%;"></div>
+                </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <hr class="my-8">
 
-    <h3 class="text-2xl font-bold text-slate-900 mb-6 display-font">1.2 Critical Consent Gates</h3>
+        <section id="architecture" class="mb-24">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4 display-font">The System Architecture</h2>
+                <p class="text-slate-600">Ethically & Regulatory Compliant Architecture | Date: 2025-12-06</p>
+            </div>
 
-    <div class="p-6 border border-red-300 rounded-lg bg-red-50 space-y-4">
-        <p class="text-sm text-red-800 font-bold">You must check all mandatory boxes below to submit data and activate the Conflict Mapping Protocol.</p>
+            <div class="relative space-y-8 pl-4 md:pl-8">
+                <div class="timeline-line"></div>
 
-        <div class="flex items-start">
-            <input type="checkbox" id="b17_consent" name="b17_consent" class="mt-1 h-5 w-5 text-red-500 rounded border-gray-400 focus:ring-red-500" required>
-            <label for="b17_consent" class="ml-3 text-slate-800 text-sm leading-tight font-semibold">
-                I explicitly consent to the use of my vulnerability data (The Seams) to simulate conflict for compatibility testing (B17: Informed Conflict Consent).
-            </label>
-        </div>
+                <div class="relative pl-12">
+                    <div class="absolute left-0 top-4 w-12 h-12 bg-indigo-600 rounded-full border-4 border-slate-50 flex items-center justify-center z-10 text-lg font-bold text-white shadow-lg">1</div>
+                    <div class="phase-card bg-white border border-indigo-100 rounded-xl shadow-md overflow-hidden ring-1 ring-indigo-50">
+                        <div class="phase-header p-6 flex justify-between items-center bg-indigo-50/50" onclick="togglePhase('p1', 'icon-p1')">
+                            <div>
+                                <h3 class="text-xl font-bold text-indigo-900 display-font">Phase 1: The Active Protocol</h3>
+                                <p class="text-sm text-indigo-600 font-medium">Data Injection & Persona Synthesis</p>
+                            </div>
+                            <span class="text-2xl text-indigo-400 transition-transform duration-300" id="icon-p1">—</span>
+                        </div>
+                        <div id="p1" class="phase-content">
+                            <div class="p-6 border-t border-indigo-100 space-y-6">
 
-        <div class="flex items-start">
-            <input type="checkbox" id="b7_liveness" name="b7_liveness" class="mt-1 h-5 w-5 text-red-500 rounded border-gray-400 focus:ring-red-500" required>
-            <label for="b7_liveness" class="ml-3 text-slate-800 text-sm leading-tight">
-                I affirm I am a live person and consent to the mandatory liveness check (B7: Mandatory Liveness Check).
-            </label>
-        </div>
+                                <form id="persona-form" action="/generate" method="POST" class="mt-4 bg-white p-6 md:p-8 rounded-xl shadow-lg border border-slate-200">
 
-        <div class="flex items-start">
-            <input type="checkbox" id="b19a_gate" name="b19a_gate" class="mt-1 h-5 w-5 text-red-500 rounded border-gray-400 focus:ring-red-500" required>
-            <label for="b19a_gate" class="ml-3 text-slate-800 text-sm leading-tight">
-                I affirm the Identity Gate data (Age, Gender, Orientation) provided above is accurate (B19 A: Data Affirmation).
-            </label>
-        </div>
+                                    <h3 class="text-2xl font-bold text-slate-900 mb-6 display-font">1.1 Integrity Protocol Core (The Seams Deep-Dive)</h3>
 
-        <div class="flex items-start">
-            <input type="checkbox" id="b19b_gate" name="b19b_gate" class="mt-1 h-5 w-5 text-purple-500 rounded border-gray-400 focus:ring-purple-500">
-            <label for="b19b_gate" class="ml-3 text-slate-800 text-sm leading-tight">
-                I explicitly opt-in to the Premium 18+ Intimacy Package (B19 B: Intimacy Consent Gate).
-            </label>
-        </div>
-    </div>
+                                    <div class="mb-6 p-4 border border-indigo-200 rounded-lg bg-indigo-50">
+                                        <h4 class="font-semibold text-indigo-700 mb-3 display-font">Identity Gate (B19 A)</h4>
+                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                            <div class="form-group">
+                                                <label for="gender_identity" class="block text-sm font-medium text-slate-700">Gender Identity:</label>
+                                                <input type="text" id="gender_identity" name="gender_identity" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="sexual_orientation" class="block text-sm font-medium text-slate-700">Sexual Orientation:</label>
+                                                <input type="text" id="sexual_orientation" name="sexual_orientation" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="validated_age" class="block text-sm font-medium text-slate-700">Validated Age (18+):</label>
+                                                <input type="number" id="validated_age" name="validated_age" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2" min="18" required>
+                                            </div>
+                                        </div>
+                                    </div>
 
-    <div class="mt-8 text-center">
-        <button type="submit" class="w-full md:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-indigo-500/50 display-font text-xl">
-            Submit Phase 1 & Generate SoulDeep Persona
-        </button>
-    </div>
+                                    <div class="form-group mb-6">
+                                        <label for="B14" class="block text-lg font-bold text-slate-900 mb-2">1. The Scar (B14):</label>
+                                        <p class="text-sm text-slate-600 mb-2">Measures honesty, vulnerability capacity, and risk tolerance. Describe one major painful truth you avoid sharing early in relationships, and the cost of maintaining that secret.</p>
+                                        <textarea id="B14" name="B14" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
+                                    </div>
 
-</form>
+                                    <div class="form-group mb-6">
+                                        <label for="B16" class="block text-lg font-bold text-slate-900 mb-2">2. The Foundation (B16):</label>
+                                        <p class="text-sm text-slate-600 mb-2">Defines the limits of compatibility and required emotional security. Describe the one action or phrase that instantly makes you feel unsafe/disrespected in a conflict, requiring you to withdraw or shut down.</p>
+                                        <textarea id="B16" name="B16" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
+                                    </div>
+
+                                    <div class="form-group mb-6">
+                                        <label for="B15" class="block text-lg font-bold text-slate-900 mb-2">3. Show Me The Seams (B15 - The Key):</label>
+                                        <p class="text-sm text-slate-600 mb-2">Identifies your relational vulnerability/growth area. What is your **go-to toxic coping mechanism** when you feel emotionally overwhelmed or deeply hurt?</p>
+                                        <textarea id="B15" name="B15" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
+                                    </div>
+
+                                    <div class="mb-6 p-4 border border-rose-300 rounded-lg bg-rose-50">
+                                        <h4 class="font-semibold text-rose-800 mb-3 display-font">TKI Conflict Score Questions (B21)</h4>
+
+                                        <div class="form-group mb-4">
+                                            <label for="B21_A" class="block text-sm font-medium text-slate-700">When a conflict starts, do you prioritize getting your own needs met (1) or maintaining peace (5)?</label>
+                                            <input type="range" id="B21_A" name="B21_A" min="1" max="5" step="0.5" class="mt-2 w-full" oninput="document.getElementById('B21_A_val').innerText = this.value" required>
+                                            <div class="flex justify-between text-xs text-slate-600 mt-1">
+                                                <span>1 (My Needs)</span>
+                                                <span id="B21_A_val">3</span>
+                                                <span>5 (Peace/Avoidance)</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="B21_B" class="block text-sm font-medium text-slate-700">When criticized, do you seek common ground (1) or avoid the person entirely (5)?</label>
+                                            <input type="range" id="B21_B" name="B21_B" min="1" max="5" step="0.5" class="mt-2 w-full" oninput="document.getElementById('B21_B_val').innerText = this.value" required>
+                                            <div class="flex justify-between text-xs text-slate-600 mt-1">
+                                                <span>1 (Common Ground)</span>
+                                                <span id="B21_B_val">3</span>
+                                                <span>5 (Avoidance)</span>
+                                            </div>
+                        </div>
+                                        </div>
+
+                                    <hr class="my-8">
+
+                                    <h3 class="text-2xl font-bold text-slate-900 mb-6 display-font">1.2 Critical Consent Gates</h3>
+
+                                    <div class="p-6 border border-red-300 rounded-lg bg-red-50 space-y-4">
+                                        <p class="text-sm text-red-800 font-bold">You must check all mandatory boxes below to submit data and activate the Conflict Mapping Protocol.</p>
+
+                                        <div class="flex items-start">
+                                            <input type="checkbox" id="b17_consent" name="b17_consent" class="mt-1 h-5 w-5 text-red-500 rounded border-gray-400 focus:ring-red-500" required>
+                                            <label for="b17_consent" class="ml-3 text-slate-800 text-sm leading-tight font-semibold">
+                                                I explicitly consent to the use of my vulnerability data (The Seams) to simulate conflict for compatibility testing (B17: Informed Conflict Consent).
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-start">
+                                            <input type="checkbox" id="b7_liveness" name="b7_liveness" class="mt-1 h-5 w-5 text-red-500 rounded border-gray-400 focus:ring-red-500" required>
+                                            <label for="b7_liveness" class="ml-3 text-slate-800 text-sm leading-tight">
+                                                I affirm I am a live person and consent to the mandatory liveness check (B7: Mandatory Liveness Check).
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-start">
+                                            <input type="checkbox" id="b19a_gate" name="b19a_gate" class="mt-1 h-5 w-5 text-red-500 rounded border-gray-400 focus:ring-red-500" required>
+                                            <label for="b19a_gate" class="ml-3 text-slate-800 text-sm leading-tight">
+                                                I affirm the Identity Gate data (Age, Gender, Orientation) provided above is accurate (B19 A: Data Affirmation).
+                                            </label>
+                                        </div>
+
+                                        <div class="flex items-start">
+                                            <input type="checkbox" id="b19b_gate" name="b19b_gate" class="mt-1 h-5 w-5 text-purple-500 rounded border-gray-400 focus:ring-purple-500">
+                                            <label for="b19b_gate" class="ml-3 text-slate-800 text-sm leading-tight">
+                                                I explicitly opt-in to the Premium 18+ Intimacy Package (B19 B: Intimacy Consent Gate).
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-8 text-center">
+                                        <button type="submit" class="w-full md:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-indigo-500/50 display-font text-xl">
+                                            Submit Phase 1 & Generate SoulDeep Persona
+                                        </button>
+                                    </div>
+
+                                </form>
+
+                                <div id="results" class="hidden mt-8 bg-emerald-50 p-6 md:p-8 rounded-xl shadow-lg border border-emerald-300">
+                                    <h3 class="text-2xl font-bold text-emerald-800 mb-4 display-font">Persona Synthesis Complete!</h3>
+                                    </div>
+
+                                <div class="text-center text-xs font-mono text-slate-400 pt-4">
+                                    > MILESTONE 1: SoulDeep Persona (User AI Clone) Generated. Ready for Phase 2 Simulation.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative pl-12">
+                    <div class="absolute left-0 top-4 w-12 h-12 bg-rose-600 rounded-full border-4 border-slate-50 flex items-center justify-center z-10 text-lg font-bold text-white shadow-lg">2</div>
+                    <div class="phase-card bg-white border border-rose-100 rounded-xl shadow-md overflow-hidden ring-1 ring-rose-50">
+                        <div class="phase-header p-6 flex justify-between items-center bg-rose-50/50" onclick="togglePhase('p2', 'icon-p2')">
+                            <div>
+                                <h3 class="text-xl font-bold text-rose-900 display-font">Phase 2: Show Me The Seams</h3>
+                                <p class="text-sm text-rose-600 font-medium">Simulation, Conflict Mapping & Resilience Testing</p>
+                            </div>
+                            <span class="text-2xl text-rose-400 transition-transform duration-300" id="icon-p2">+</span>
+                        </div>
+                        <div id="p2" class="phase-content closed">
+                            <div class="p-6 border-t border-rose-100 space-y-6">
+
+                                <div class="bg-slate-900 text-white p-5 rounded-lg shadow-xl">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <h4 class="font-bold text-rose-400 display-font">2.1 The Silent Tournament & Conflict Mapping</h4>
+                                        <span class="text-[10px] border border-rose-500 px-2 py-1 rounded uppercase">AI-to-AI Dysregulation Test</span>
+                                    </div>
+                                    <p class="text-sm text-slate-300 mb-4">
+                                        **NEW RULE (Non-Compliant Ethos):** The AI Persona **MUST** choose structural honesty (defending core boundaries/truth) over generic compliance (keeping the peace).
+                                    </p>
+                                    <ul class="list-disc list-inside text-sm text-slate-400 space-y-1">
+                                        <li>**Conflict Mapping Logic:** Predicts behavior using B14/B15/B16 data.</li>
+                                        <li>**The Scar Demand Requirement:** Measures capacity for radical vulnerability.</li>
+                                        <li>**The Red Button Requirement:** Identify the specific trigger phrase/action that instantly activates the defense.</li>
+                                        <li>**The Blast Radius Logic:** Defines the user’s emotional defense Archetype (Erupt, Freeze, Flee, or Panic).</li>
+                                    </ul>
+                                </div>
+
+                                <div class="flex gap-3 items-start border-b border-rose-100 pb-4">
+                                    <div class="w-6 h-6 rounded bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2.2</div>
+                                    <div>
+                                        <strong class="text-slate-900">The Mis-Match Tape (Structural Analysis for Growth)</strong>
+                                        <p class="text-sm text-slate-600 mt-1">Provides Trigger Diagnosis (which **Seam** caused the break) and the **Vulnerability Cycle Directive (B22)**, which coaches users to translate resentment into actionable wishes/yearnings.</p>
+                                    </div>
+                                </div>
+
+                                <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                    <strong class="text-yellow-800 text-sm block mb-1">2.3 Intimacy Package (VIP Access / Scarcity Pass)</strong>
+                                    <p class="text-xs text-yellow-700">Requires VIP Subscription OR $3.99 Scarcity Pass + Mutual Opt-in + Age Verification. Implements **Monitoring Protocol** (AI/human) for all chat logs to scan for abuse/distress. **(Mitigates Safety Risk).**</p>
+                                </div>
+
+                                <div class="flex gap-3 items-start">
+                                    <div class="w-6 h-6 rounded bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2.5</div>
+                                    <div>
+                                        <strong class="text-slate-900">Human-to-Human Chat (Blind / Zero-Knowledge)</strong>
+                                        <p class="text-sm text-slate-600 mt-1">Direct, live chat between the two actual users with PII anonymized. Duration: Min 5 Days / Max 3 Months.</p>
+                                        <div class="mt-2 text-xs bg-rose-50 text-rose-600 p-3 rounded border border-rose-100 font-bold">
+                                            NEW SAFETY RULE: Any user attempting to give or ask for PII (Personally Identifiable Information) in the blind chat is immediately and permanently removed from the system. (Implemented via 2.3 Monitoring Protocol).
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative pl-12">
+                    <div class="absolute left-0 top-4 w-12 h-12 bg-emerald-500 rounded-full border-4 border-slate-50 flex items-center justify-center z-10 text-lg font-bold text-white shadow-sm">3</div>
+                    <div class="phase-card bg-white border border-emerald-100 rounded-xl shadow-sm overflow-hidden ring-1 ring-emerald-50">
+                        <div class="phase-header p-6 flex justify-between items-center bg-emerald-50/50" onclick="togglePhase('p3', 'icon-p3')">
+                            <div>
+                                <h3 class="text-xl font-bold text-emerald-900 display-font">Phase 3: The Unveil Process</h3>
+                                <p class="text-sm text-emerald-600 font-medium">De-Anonymization & Accountability</p>
+                            </div>
+                            <span class="text-2xl text-emerald-400 transition-transform duration-300" id="icon-p3">+</span>
+                        </div>
+                        <div id="p3" class="phase-content closed">
+                            <div class="p-6 border-t border-emerald-100 space-y-6">
+
+                                <div class="flex justify-between items-start border-b border-emerald-100 pb-4">
+                                    <div>
+                                        <h4 class="font-bold text-slate-800">3.1 Partial Unveil (Soft Reveal)</h4>
+                                        <p class="text-sm text-slate-600 mt-1">Soft Reveal (blurred photos, voice snippets) after minimum 5 days of blind chat. Implements **AI Screening Mechanism** to review all exchanged media for detectable PII before transmission. **(Mitigates Identity Leak Risk).**</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-start border-b border-emerald-100 pb-4">
+                                    <div>
+                                        <h4 class="font-bold text-slate-800">3.2 Final Full Unveil (The Handshake)</h4>
+                                        <p class="text-sm text-slate-600 mt-1">Requires **VIP Access**. Release of full identity/PII, contingent on a **Digital Waiver signed by both parties.**</p>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3 bg-slate-800 text-white p-4 rounded-lg flex items-center gap-3">
+                                    <div class="text-2xl text-yellow-400"><i class="ph ph-warning"></i></div>
+                                    <div class="text-sm">
+                                        <strong>The "One Choice" Rule:</strong>
+                                        <br>Users may only move **ONE match** to this final phase per week, enforcing prioritization.
+                                    </div>
+                                </div>
+
+                                <h4 class="font-bold text-slate-800 mb-3 display-font border-b pt-4 pb-2">IV. Accountability & Retention (PUP)</h4>
+
+                                <ul class="list-disc list-inside text-sm text-slate-700 space-y-2 bg-slate-50 p-4 rounded-lg">
+                                    <li>**Monetization Integrity Vow (NEW):** Algorithmic throttling/suppression of matches to manipulate payment is strictly prohibited. **(Mitigates Trust/Ethical Risk).**</li>
+                                    <li>**Privacy Officer Role (NEW):** Designated, publicly listed role accountable for privacy protection. **(Mitigates Accountability Risk / PIPEDA).**</li>
+                                    <li>**AI Training Transparency Policy (NEW):** AI Coach trained using expert/clinically reviewed data, not general internet scrapes. **(Mitigates Algorithmic Bias Risk).**</li>
+                                    <li>**Access & Challenge Policy (B11):** Failure Analysis Review documents mechanism to comply with user's right to access and challenge data accuracy. **(Mitigates Individual Rights Risk).**</li>
+                                    <li>**Retention Loop (B11/B12):** Successful users receive Re-Entry Anchor; Unmatched users receive Failure Analysis Review. Referral Loop gives 12 months Free VIP access to successful referrers.</li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <p id="message-box" class="fixed bottom-0 right-0 m-4 p-3 rounded-lg bg-red-600 text-white shadow-xl hidden z-50">
+        Error Message
+    </p>
+
+
+    <script>
+        // --- UI/Aesthetic Functionality ---
+        function togglePhase(id, iconId) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById(iconId);
+
+            if (!content || !icon) return;
+
+            const isClosed = content.style.maxHeight === '0px' || content.style.maxHeight === '' || content.classList.contains('closed');
+
+            if (isClosed) {
+                // Open the phase
+                content.classList.remove('closed');
+                // Recalculate and set max height based on content
+                content.style.maxHeight = content.scrollHeight + 50 + "px"; 
+                icon.classList.add('rotate-icon');
+                icon.textContent = "—";
+            } else {
+                // Close the phase
+                content.style.maxHeight = "0";
+                content.classList.add('closed');
+                icon.classList.remove('rotate-icon');
+                icon.textContent = "+";
+            }
+        }
+
+        function updateProgressUI(data) {
+            // This function is a placeholder for the final Firebase integration logic 
+            // which would update the UI based on user progress saved to Firestore.
+            // For the submission demonstration, we will skip it.
+        }
+
+        // --- Form Submission and Result Handling ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('persona-form');
+            const resultsDiv = document.getElementById('results');
+
+            // Ensure Phase 1 is open by default for the user to see the form
+            togglePhase('p1', 'icon-p1');
+
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const submitButton = form.querySelector('button[type="submit"]');
+                    submitButton.textContent = 'Synthesizing Persona...';
+                    submitButton.disabled = true;
+
+                    const formData = new FormData(form);
+                    const data = Object.fromEntries(formData.entries());
+
+                    try {
+                        const response = await fetch('/generate', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        });
+
+                        const resultText = await response.text();
+
+                        if (response.ok) {
+                            // Success! Show the message in the new results div
+                            resultsDiv.innerHTML = `
+                                <h3 class="text-2xl font-bold text-emerald-800 mb-4 display-font">Persona Synthesis Complete!</h3>
+                                <div class="text-sm text-slate-700 whitespace-pre-line">${resultText}</div>
+                            `;
+                            resultsDiv.classList.remove('hidden');
+                            form.classList.add('hidden'); // Hide the form on success
+
+                            // Scroll to the results
+                            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+
+                        } else {
+                            // Server error (like gate check failed or AI Synthesis error)
+                            resultsDiv.classList.add('hidden');
+                            showMessage(resultText, true);
+                        }
+                    } catch (error) {
+                        console.error('Network or client error:', error);
+                        showMessage('Network Error: Could not connect to the server.', true);
+                    } finally {
+                        submitButton.textContent = 'Submit Phase 1 & Generate SoulDeep Persona';
+                        submitButton.disabled = false;
+                    }
+                });
+            }
+        });
+
+        function showMessage(message, isError = false) {
+            const box = document.getElementById('message-box');
+            if (!box) return;
+            box.textContent = message;
+            box.classList.remove('hidden');
+            box.classList.toggle('bg-red-600', isError);
+            box.classList.toggle('bg-emerald-600', !isError);
+            // Auto hide after 8 seconds
+            setTimeout(() => box.classList.add('hidden'), 8000);
+        }
+
+    </script>
+</body>
+</html>
