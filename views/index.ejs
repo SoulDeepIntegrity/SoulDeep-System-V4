@@ -176,13 +176,13 @@
 
                                     <div class="form-group mb-6">
                                         <label for="B14" class="block text-lg font-bold text-slate-900 mb-2">1. The Scar (B14):</label>
-                                        <p class="text-sm text-slate-600 mb-2">Describe one time being completely honest caused you a significant loss (relational, financial, professional). This is The Scar.</p>
+                                        <p class="text-sm text-slate-600 mb-2">Describe one time being completely honest caused you a **significant loss** (relational, financial, professional). This is The Scar.</p>
                                         <textarea id="B14" name="B14" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
                                     </div>
 
                                     <div class="form-group mb-6">
                                         <label for="B16" class="block text-lg font-bold text-slate-900 mb-2">2. The Foundation (B16):</label>
-                                        <p class="text-sm text-slate-600 mb-2">Home is a feeling, not a place. What is ONE non-negotiable feeling you need to feel safe in a relationship? This is The Foundation.</p>
+                                        <p class="text-sm text-slate-600 mb-2">Home is a feeling, not a place. What is **ONE non-negotiable feeling** you need to feel safe in a relationship? This is The Foundation.</p>
                                         <textarea id="B16" name="B16" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
                                     </div>
 
@@ -191,6 +191,35 @@
                                         <p class="text-sm text-slate-600 mb-2">Identifies your relational vulnerability/growth area. What is your **go-to toxic coping mechanism** when you feel emotionally overwhelmed or deeply hurt?</p>
                                         <textarea id="B15" name="B15" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
                                     </div>
+
+                                    <hr class="my-8">
+
+                                    <h3 class="text-2xl font-bold text-slate-900 mb-6 display-font">1.2 Cognitive Load Profile (Non-Negotiables)</h3>
+
+                                    <div class="form-group mb-6">
+                                        <label for="C_hobbies" class="block text-lg font-bold text-slate-900 mb-2">1. Hobbies & Interests (C-Hobbies):</label>
+                                        <p class="text-sm text-slate-600 mb-2">List 3-5 current hobbies or strong personal interests. This builds cognitive context for shared experience.</p>
+                                        <textarea id="C_hobbies" name="C_hobbies" rows="2" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
+                                    </div>
+
+                                    <div class="mb-6 p-4 border border-indigo-300 rounded-lg bg-indigo-50">
+                                        <h4 class="font-semibold text-indigo-800 mb-3 display-font">Political Alignment (C-Politics)</h4>
+
+                                        <div class="form-group">
+                                            <label for="C_politics" class="block text-sm font-medium text-slate-700">Where do you place yourself on the political spectrum?</label>
+                                            <input type="range" id="C_politics" name="C_politics" min="1" max="5" step="1" class="mt-2 w-full" oninput="document.getElementById('C_politics_val').innerText = this.value" required>
+                                            <div class="flex justify-between text-xs text-slate-600 mt-1">
+                                                <span>1 (Very Liberal)</span>
+                                                <span>5 (Very Conservative)</span>
+                                            </div>
+                                            <div class="text-center font-bold text-sm mt-1">
+                                                Current Value: <span id="C_politics_val">3</span> (Moderate)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr class="my-8">
+
 
                                     <div class="mb-6 p-4 border border-rose-300 rounded-lg bg-rose-50">
                                         <h4 class="font-semibold text-rose-800 mb-3 display-font">TKI Conflict Score Questions (B21)</h4>
@@ -265,4 +294,232 @@
                                     </div>
 
                                 <div class="text-center text-xs font-mono text-slate-400 pt-4">
-                                    > MILESTONE 1: SoulDeep Persona (User AI Clone) Generated. Ready for Phase
+                                    > MILESTONE 1: SoulDeep Persona (User AI Clone) Generated. Ready for Phase 2 Simulation.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative pl-12">
+                    <div class="absolute left-0 top-4 w-12 h-12 bg-rose-600 rounded-full border-4 border-slate-50 flex items-center justify-center z-10 text-lg font-bold text-white shadow-lg">2</div>
+                    <div class="phase-card bg-white border border-rose-100 rounded-xl shadow-md overflow-hidden ring-1 ring-rose-50">
+                        <div class="phase-header p-6 flex justify-between items-center bg-rose-50/50" onclick="togglePhase('p2', 'icon-p2')">
+                            <div>
+                                <h3 class="text-xl font-bold text-rose-900 display-font">Phase 2: Show Me The Seams</h3>
+                                <p class="text-sm text-rose-600 font-medium">Simulation, Conflict Mapping & Resilience Testing</p>
+                            </div>
+                            <span class="text-2xl text-rose-400 transition-transform duration-300" id="icon-p2">+</span>
+                        </div>
+                        <div id="p2" class="phase-content closed">
+                            <div class="p-6 border-t border-rose-100 space-y-6">
+
+                                <div class="bg-slate-900 text-white p-5 rounded-lg shadow-xl">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <h4 class="font-bold text-rose-400 display-font">2.1 The Silent Tournament & Conflict Mapping</h4>
+                                        <span class="text-[10px] border border-rose-500 px-2 py-1 rounded uppercase">AI-to-AI Dysregulation Test</span>
+                                    </div>
+                                    <p class="text-sm text-slate-300 mb-4">
+                                        **NEW RULE (Non-Compliant Ethos):** The AI Persona **MUST** choose structural honesty (defending core boundaries/truth) over generic compliance (keeping the peace).
+                                    </p>
+                                    <ul class="list-disc list-inside text-sm text-slate-400 space-y-1">
+                                        <li>**Conflict Mapping Logic:** Predicts behavior using B14/B15/B16 data.</li>
+                                        <li>**The Scar Demand Requirement:** Measures capacity for radical vulnerability.</li>
+                                        <li>**The Red Button Requirement:** Identify the specific trigger phrase/action that instantly activates the defense.</li>
+                                        <li>**The Blast Radius Logic:** Defines the user’s emotional defense Archetype (Erupt, Freeze, Flee, or Panic).</li>
+                                    </ul>
+                                </div>
+
+                                <div class="flex gap-3 items-start border-b border-rose-100 pb-4">
+                                    <div class="w-6 h-6 rounded bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2.2</div>
+                                    <div>
+                                        <strong class="text-slate-900">The Mis-Match Tape (Structural Analysis for Growth)</strong>
+                                        <p class="text-sm text-slate-600 mt-1">Provides Trigger Diagnosis (which **Seam** caused the break) and the **Vulnerability Cycle Directive (B22)**, which coaches users to translate resentment into actionable wishes/yearnings.</p>
+                                    </div>
+                                </div>
+
+                                <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                    <strong class="text-yellow-800 text-sm block mb-1">2.3 Intimacy Package (VIP Access / Scarcity Pass)</strong>
+                                    <p class="text-xs text-yellow-700">Requires VIP Subscription OR $3.99 Scarcity Pass + Mutual Opt-in + Age Verification. Implements **Monitoring Protocol** (AI/human) for all chat logs to scan for abuse/distress. **(Mitigates Safety Risk).**</p>
+                                </div>
+
+                                <div class="flex gap-3 items-start">
+                                    <div class="w-6 h-6 rounded bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">2.5</div>
+                                    <div>
+                                        <strong class="text-slate-900">Human-to-Human Chat (Blind / Zero-Knowledge)</strong>
+                                        <p class="text-sm text-slate-600 mt-1">Direct, live chat between the two actual users with PII anonymized. Duration: Min 5 Days / Max 3 Months.</p>
+                                        <div class="mt-2 text-xs bg-rose-50 text-rose-600 p-3 rounded border border-rose-100 font-bold">
+                                            NEW SAFETY RULE: Any user attempting to give or ask for PII (Personally Identifiable Information) in the blind chat is immediately and permanently removed from the system. (Implemented via 2.3 Monitoring Protocol).
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative pl-12">
+                    <div class="absolute left-0 top-4 w-12 h-12 bg-emerald-500 rounded-full border-4 border-slate-50 flex items-center justify-center z-10 text-lg font-bold text-white shadow-sm">3</div>
+                    <div class="phase-card bg-white border border-emerald-100 rounded-xl shadow-sm overflow-hidden ring-1 ring-emerald-50">
+                        <div class="phase-header p-6 flex justify-between items-center bg-emerald-50/50" onclick="togglePhase('p3', 'icon-p3')">
+                            <div>
+                                <h3 class="text-xl font-bold text-emerald-900 display-font">Phase 3: The Unveil Process</h3>
+                                <p class="text-sm text-emerald-600 font-medium">De-Anonymization & Accountability</p>
+                            </div>
+                            <span class="text-2xl text-emerald-400 transition-transform duration-300" id="icon-p3">+</span>
+                        </div>
+                        <div id="p3" class="phase-content closed">
+                            <div class="p-6 border-t border-emerald-100 space-y-6">
+
+                                <div class="flex justify-between items-start border-b border-emerald-100 pb-4">
+                                    <div>
+                                        <h4 class="font-bold text-slate-800">3.1 Partial Unveil (Soft Reveal)</h4>
+                                        <p class="text-sm text-slate-600 mt-1">Soft Reveal (blurred photos, voice snippets) after minimum 5 days of blind chat. Implements **AI Screening Mechanism** to review all exchanged media for detectable PII before transmission. **(Mitigates Identity Leak Risk).**</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between items-start border-b border-emerald-100 pb-4">
+                                    <div>
+                                        <h4 class="font-bold text-slate-800">3.2 Final Full Unveil (The Handshake)</h4>
+                                        <p class="text-sm text-slate-600 mt-1">Requires **VIP Access**. Release of full identity/PII, contingent on a **Digital Waiver signed by both parties.**</p>
+                                    </div>
+                                </div>
+
+                                <div class="mt-3 bg-slate-800 text-white p-4 rounded-lg flex items-center gap-3">
+                                    <div class="text-2xl text-yellow-400"><i class="ph ph-warning"></i></div>
+                                    <div class="text-sm">
+                                        <strong>The "One Choice" Rule:</strong>
+                                        <br>Users may only move **ONE match** to this final phase per week, enforcing prioritization.
+                                    </div>
+                                </div>
+
+                                <h4 class="font-bold text-slate-800 mb-3 display-font border-b pt-4 pb-2">IV. Accountability & Retention (PUP)</h4>
+
+                                <ul class="list-disc list-inside text-sm text-slate-700 space-y-2 bg-slate-50 p-4 rounded-lg">
+                                    <li>**Monetization Integrity Vow (NEW):** Algorithmic throttling/suppression of matches to manipulate payment is strictly prohibited. **(Mitigates Trust/Ethical Risk).**</li>
+                                    <li>**Privacy Officer Role (NEW):** Designated, publicly listed role accountable for privacy protection. **(Mitigates Accountability Risk / PIPEDA).**</li>
+                                    <li>**AI Training Transparency Policy (NEW):** AI Coach trained using expert/clinically reviewed data, not general internet scrapes. **(Mitigates Algorithmic Bias Risk).**</li>
+                                    <li>**Access & Challenge Policy (B11):** Failure Analysis Review documents mechanism to comply with user's right to access and challenge data accuracy. **(Mitigates Individual Rights Risk).**</li>
+                                    <li>**Retention Loop (B11/B12):** Successful users receive Re-Entry Anchor; Unmatched users receive Failure Analysis Review. Referral Loop gives 12 months Free VIP access to successful referrers.</li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <p id="message-box" class="fixed bottom-0 right-0 m-4 p-3 rounded-lg bg-red-600 text-white shadow-xl hidden z-50">
+        Error Message
+    </p>
+
+
+    <script>
+        // --- UI/Aesthetic Functionality ---
+        function togglePhase(id, iconId) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById(iconId);
+
+            if (!content || !icon) return;
+
+            const isClosed = content.style.maxHeight === '0px' || content.style.maxHeight === '' || content.classList.contains('closed');
+
+            if (isClosed) {
+                // Open the phase
+                content.classList.remove('closed');
+                // Recalculate and set max height based on content
+                content.style.maxHeight = content.scrollHeight + 50 + "px"; 
+                icon.classList.add('rotate-icon');
+                icon.textContent = "—";
+            } else {
+                // Close the phase
+                content.style.maxHeight = "0";
+                content.classList.add('closed');
+                icon.classList.remove('rotate-icon');
+                icon.textContent = "+";
+            }
+        }
+
+        function updateProgressUI(data) {
+            // This function is a placeholder for the final Firebase integration logic 
+            // which would update the UI based on user progress saved to Firestore.
+            // For the submission demonstration, we will skip it.
+        }
+
+        // --- Form Submission and Result Handling ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('persona-form');
+            const resultsDiv = document.getElementById('results');
+
+            // Ensure Phase 1 is open by default for the user to see the form
+            togglePhase('p1', 'icon-p1');
+
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const submitButton = form.querySelector('button[type="submit"]');
+                    submitButton.textContent = 'Synthesizing Persona...';
+                    submitButton.disabled = true;
+
+                    const formData = new FormData(form);
+                    const data = Object.fromEntries(formData.entries());
+
+                    try {
+                        const response = await fetch('/generate', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        });
+
+                        const resultText = await response.text();
+
+                        if (response.ok) {
+                            // Success! Show the message in the new results div
+                            resultsDiv.innerHTML = `
+                                <h3 class="text-2xl font-bold text-emerald-800 mb-4 display-font">Persona Synthesis Complete!</h3>
+                                <div class="text-sm text-slate-700 whitespace-pre-line">${resultText}</div>
+                            `;
+                            resultsDiv.classList.remove('hidden');
+                            form.classList.add('hidden'); // Hide the form on success
+
+                            // Scroll to the results
+                            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+
+                        } else {
+                            // Server error (like gate check failed or AI Synthesis error)
+                            resultsDiv.classList.add('hidden');
+                            showMessage(resultText, true);
+                        }
+                    } catch (error) {
+                        console.error('Network or client error:', error);
+                        showMessage('Network Error: Could not connect to the server.', true);
+                    } finally {
+                        submitButton.textContent = 'Submit Phase 1 & Generate SoulDeep Persona';
+                        submitButton.disabled = false;
+                    }
+                });
+            }
+        });
+
+        function showMessage(message, isError = false) {
+            const box = document.getElementById('message-box');
+            if (!box) return;
+            box.textContent = message;
+            box.classList.remove('hidden');
+            box.classList.toggle('bg-red-600', isError);
+            box.classList.toggle('bg-emerald-600', !isError);
+            // Auto hide after 8 seconds
+            setTimeout(() => box.classList.add('hidden'), 8000);
+        }
+
+    </script>
+</body>
+</html>
