@@ -1,1 +1,8 @@
-serviceAccountKey.json
+# Protect Environment Variables
+.env
+
+# Protect Local Firebase Service Key
+serviceAccount.json
+
+# Protect Node Modules
+node_modules
