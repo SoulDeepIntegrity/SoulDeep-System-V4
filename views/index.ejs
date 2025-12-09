@@ -71,6 +71,22 @@
         .protocol-btn[disabled] {
             @apply opacity-50 cursor-not-allowed;
         }
+        /* PROGRESSIVE FORM STYLES */
+        .form-step {
+            display: none;
+            transition: opacity 0.5s;
+            opacity: 0;
+        }
+        .form-step.active {
+            display: block;
+            opacity: 1;
+        }
+        .step-control-btn {
+            @apply px-4 py-2 bg-slate-200 text-slate-800 rounded-lg font-semibold hover:bg-slate-300 transition-colors;
+        }
+        .step-control-btn.next {
+            @apply bg-indigo-600 text-white hover:bg-indigo-700;
+        }
     </style>
 </head>
 <body>
@@ -154,11 +170,11 @@
 
                                 <form id="persona-form" action="/generate" method="POST" class="mt-4 bg-white p-6 md:p-8 rounded-xl shadow-lg border border-slate-200">
 
-                                    <h3 class="text-2xl font-bold text-slate-900 mb-6 display-font">1.1 Integrity Protocol Core (The Seams Deep-Dive)</h3>
+                                    <h3 class="text-2xl font-bold text-slate-900 mb-6 display-font">1.1 Integrity Protocol Core</h3>
 
-                                    <div class="mb-6 p-4 border border-indigo-200 rounded-lg bg-indigo-50">
-                                        <h4 class="font-semibold text-indigo-700 mb-3 display-font">Identity Gate (B19 A)</h4>
-                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div class="form-step active" data-step="1">
+                                        <h4 class="font-semibold text-indigo-700 mb-3 display-font border-b pb-2">Step 1: Identity Gate (B19 A)</h4>
+                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                                             <div class="form-group">
                                                 <label for="gender_identity" class="block text-sm font-medium text-slate-700">Gender Identity:</label>
                                                 <input type="text" id="gender_identity" name="gender_identity" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2" required>
@@ -172,121 +188,142 @@
                                                 <input type="number" id="validated_age" name="validated_age" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2" min="18" required>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group mb-6">
-                                        <label for="B14" class="block text-lg font-bold text-slate-900 mb-2">1. The Scar (B14):</label>
-                                        <p class="text-sm text-slate-600 mb-2">Describe one time being completely honest caused you a **significant loss** (relational, financial, professional). This is The Scar.</p>
-                                        <textarea id="B14" name="B14" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
-                                    </div>
-
-                                    <div class="form-group mb-6">
-                                        <label for="B16" class="block text-lg font-bold text-slate-900 mb-2">2. The Foundation (B16):</label>
-                                        <p class="text-sm text-slate-600 mb-2">Home is a feeling, not a place. What is **ONE non-negotiable feeling** you need to feel safe in a relationship? This is The Foundation.</p>
-                                        <textarea id="B16" name="B16" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
-                                    </div>
-
-                                    <div class="form-group mb-6">
-                                        <label for="B15" class="block text-lg font-bold text-slate-900 mb-2">3. Show Me The Seams (B15 - The Key):</label>
-                                        <p class="text-sm text-slate-600 mb-2">Identifies your relational vulnerability/growth area. What is your **go-to toxic coping mechanism** when you feel emotionally overwhelmed or deeply hurt?</p>
-                                        <textarea id="B15" name="B15" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
-                                    </div>
-
-                                    <hr class="my-8">
-
-                                    <h3 class="text-2xl font-bold text-slate-900 mb-6 display-font">1.2 Cognitive Load Profile (Non-Negotiables)</h3>
-
-                                    <div class="form-group mb-6">
-                                        <label for="C_hobbies" class="block text-lg font-bold text-slate-900 mb-2">1. Hobbies & Interests (C-Hobbies):</label>
-                                        <p class="text-sm text-slate-600 mb-2">List 3-5 current hobbies or strong personal interests. This builds cognitive context for shared experience.</p>
-                                        <textarea id="C_hobbies" name="C_hobbies" rows="2" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
-                                    </div>
-
-                                    <div class="mb-6 p-4 border border-indigo-300 rounded-lg bg-indigo-50">
-                                        <h4 class="font-semibold text-indigo-800 mb-3 display-font">Political Alignment (C-Politics)</h4>
-
-                                        <div class="form-group">
-                                            <label for="C_politics" class="block text-sm font-medium text-slate-700">Where do you place yourself on the political spectrum?</label>
-                                            <input type="range" id="C_politics" name="C_politics" min="1" max="5" step="1" class="mt-2 w-full" oninput="document.getElementById('C_politics_val').innerText = this.value" required>
-                                            <div class="flex justify-between text-xs text-slate-600 mt-1">
-                                                <span>1 (Very Liberal)</span>
-                                                <span>5 (Very Conservative)</span>
-                                            </div>
-                                            <div class="text-center font-bold text-sm mt-1">
-                                                Current Value: <span id="C_politics_val">3</span> (Moderate)
-                                            </div>
+                                        <div class="text-right">
+                                            <button type="button" class="step-control-btn next" data-next-step="2">Next: The Scar & Foundation <i class="ph ph-arrow-right ml-1"></i></button>
                                         </div>
                                     </div>
 
-                                    <hr class="my-8">
+                                    <div class="form-step" data-step="2">
+                                        <h4 class="font-semibold text-indigo-700 mb-3 display-font border-b pb-2">Step 2: Core Vulnerabilities (The Scar & Foundation)</h4>
 
-
-                                    <div class="mb-6 p-4 border border-rose-300 rounded-lg bg-rose-50">
-                                        <h4 class="font-semibold text-rose-800 mb-3 display-font">TKI Conflict Score Questions (B21)</h4>
-
-                                        <div class="form-group mb-4">
-                                            <label for="B21_A" class="block text-sm font-medium text-slate-700">When a conflict starts, do you prioritize getting your own needs met (1) or maintaining peace (5)?</label>
-                                            <input type="range" id="B21_A" name="B21_A" min="1" max="5" step="0.5" class="mt-2 w-full" oninput="document.getElementById('B21_A_val').innerText = this.value" required>
-                                            <div class="flex justify-between text-xs text-slate-600 mt-1">
-                                                <span>1 (My Needs)</span>
-                                                <span id="B21_A_val">3</span>
-                                                <span>5 (Peace/Avoidance)</span>
-                                            </div>
+                                        <div class="form-group mb-6">
+                                            <label for="B14" class="block text-lg font-bold text-slate-900 mb-2">1. The Scar (B14):</label>
+                                            <p class="text-sm text-slate-600 mb-2">Describe one time being completely honest caused you a **significant loss** (relational, financial, professional). This is The Scar.</p>
+                                            <textarea id="B14" name="B14" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="B21_B" class="block text-sm font-medium text-slate-700">When criticized, do you seek common ground (1) or avoid the person entirely (5)?</label>
-                                            <input type="range" id="B21_B" name="B21_B" min="1" max="5" step="0.5" class="mt-2 w-full" oninput="document.getElementById('B21_B_val').innerText = this.value" required>
-                                            <div class="flex justify-between text-xs text-slate-600 mt-1">
-                                                <span>1 (Common Ground)</span>
-                                                <span id="B21_B_val">3</span>
-                                                <span>5 (Avoidance)</span>
+                                        <div class="form-group mb-6">
+                                            <label for="B16" class="block text-lg font-bold text-slate-900 mb-2">2. The Foundation (B16):</label>
+                                            <p class="text-sm text-slate-600 mb-2">Home is a feeling, not a place. What is **ONE non-negotiable feeling** you need to feel safe in a relationship? This is The Foundation.</p>
+                                            <textarea id="B16" name="B16" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
+                                        </div>
+
+                                        <div class="flex justify-between mt-4">
+                                            <button type="button" class="step-control-btn" data-prev-step="1"><i class="ph ph-arrow-left mr-1"></i> Previous</button>
+                                            <button type="button" class="step-control-btn next" data-next-step="3">Next: The Seams & Conflict Score <i class="ph ph-arrow-right ml-1"></i></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-step" data-step="3">
+                                        <h4 class="font-semibold text-indigo-700 mb-3 display-font border-b pb-2">Step 3: Seams, TKI & Cognitive Load</h4>
+
+                                        <div class="form-group mb-6">
+                                            <label for="B15" class="block text-lg font-bold text-slate-900 mb-2">3. Show Me The Seams (B15 - The Key):</label>
+                                            <p class="text-sm text-slate-600 mb-2">Identifies your relational vulnerability/growth area. What is your **go-to toxic coping mechanism** when you feel emotionally overwhelmed or deeply hurt?</p>
+                                            <textarea id="B15" name="B15" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
+                                        </div>
+
+                                        <hr class="my-8">
+
+                                        <h3 class="text-2xl font-bold text-slate-900 mb-6 display-font">1.2 Cognitive Load Profile (Non-Negotiables)</h3>
+
+                                        <div class="form-group mb-6">
+                                            <label for="C_hobbies" class="block text-lg font-bold text-slate-900 mb-2">1. Hobbies & Interests (C-Hobbies):</label>
+                                            <p class="text-sm text-slate-600 mb-2">List 3-5 current hobbies or strong personal interests. This builds cognitive context for shared experience.</p>
+                                            <textarea id="C_hobbies" name="C_hobbies" rows="2" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-3" required></textarea>
+                                        </div>
+
+                                        <div class="mb-6 p-4 border border-indigo-300 rounded-lg bg-indigo-50">
+                                            <h4 class="font-semibold text-indigo-800 mb-3 display-font">Political Alignment (C-Politics)</h4>
+
+                                            <div class="form-group">
+                                                <label for="C_politics" class="block text-sm font-medium text-slate-700">Where do you place yourself on the political spectrum?</label>
+                                                <input type="range" id="C_politics" name="C_politics" min="1" max="5" step="1" class="mt-2 w-full" oninput="document.getElementById('C_politics_val').innerText = this.value" required>
+                                                <div class="flex justify-between text-xs text-slate-600 mt-1">
+                                                    <span>1 (Very Liberal)</span>
+                                                    <span>5 (Very Conservative)</span>
+                                                </div>
+                                                <div class="text-center font-bold text-sm mt-1">
+                                                    Current Value: <span id="C_politics_val">3</span> (Moderate)
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <hr class="my-8">
+                                        <hr class="my-8">
 
-                                    <h3 class="text-2xl font-bold text-slate-900 mb-6 display-font">1.2 Critical Consent Gates</h3>
 
-                                    <div class="p-6 border border-red-300 rounded-lg bg-red-50 space-y-4">
-                                        <p class="text-sm text-red-800 font-bold">You must check all mandatory boxes below to submit data and activate the Conflict Mapping Protocol.</p>
+                                        <div class="mb-6 p-4 border border-rose-300 rounded-lg bg-rose-50">
+                                            <h4 class="font-semibold text-rose-800 mb-3 display-font">TKI Conflict Score Questions (B21)</h4>
 
-                                        <div class="flex items-start">
-                                            <input type="checkbox" id="b17_consent" name="b17_consent" class="mt-1 h-5 w-5 text-red-500 rounded border-gray-400 focus:ring-red-500" required>
-                                            <label for="b17_consent" class="ml-3 text-slate-800 text-sm leading-tight font-semibold">
-                                                I explicitly consent to the use of my vulnerability data (The Seams) to simulate conflict for compatibility testing (B17: Informed Conflict Consent).
-                                            </label>
+                                            <div class="form-group mb-4">
+                                                <label for="B21_A" class="block text-sm font-medium text-slate-700">When a conflict starts, do you prioritize getting your own needs met (1) or maintaining peace (5)?</label>
+                                                <input type="range" id="B21_A" name="B21_A" min="1" max="5" step="0.5" class="mt-2 w-full" oninput="document.getElementById('B21_A_val').innerText = this.value" required>
+                                                <div class="flex justify-between text-xs text-slate-600 mt-1">
+                                                    <span>1 (My Needs)</span>
+                                                    <span id="B21_A_val">3</span>
+                                                    <span>5 (Peace/Avoidance)</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="B21_B" class="block text-sm font-medium text-slate-700">When criticized, do you seek common ground (1) or avoid the person entirely (5)?</label>
+                                                <input type="range" id="B21_B" name="B21_B" min="1" max="5" step="0.5" class="mt-2 w-full" oninput="document.getElementById('B21_B_val').innerText = this.value" required>
+                                                <div class="flex justify-between text-xs text-slate-600 mt-1">
+                                                    <span>1 (Common Ground)</span>
+                                                    <span id="B21_B_val">3</span>
+                                                    <span>5 (Avoidance)</span>
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <div class="flex items-start">
-                                            <input type="checkbox" id="b7_liveness" name="b7_liveness" class="mt-1 h-5 w-5 text-red-500 rounded border-gray-400 focus:ring-red-500" required>
-                                            <label for="b7_liveness" class="ml-3 text-slate-800 text-sm leading-tight">
-                                                I affirm I am a live person and consent to the mandatory liveness check (B7: Mandatory Liveness Check).
-                                            </label>
-                                        </div>
-
-                                        <div class="flex items-start">
-                                            <input type="checkbox" id="b19a_gate" name="b19a_gate" class="mt-1 h-5 w-5 text-red-500 rounded border-gray-400 focus:ring-red-500" required>
-                                            <label for="b19a_gate" class="ml-3 text-slate-800 text-sm leading-tight">
-                                                I affirm the Identity Gate data (Age, Gender, Orientation) provided above is accurate (B19 A: Data Affirmation).
-                                            </label>
-                                        </div>
-
-                                        <div class="flex items-start">
-                                            <input type="checkbox" id="b19b_gate" name="b19b_gate" class="mt-1 h-5 w-5 text-purple-500 rounded border-gray-400 focus:ring-purple-500">
-                                            <label for="b19b_gate" class="ml-3 text-slate-800 text-sm leading-tight">
-                                                I explicitly opt-in to the Premium 18+ Intimacy Package (B19 B: Intimacy Consent Gate).
-                                            </label>
+                                        <div class="flex justify-between mt-4">
+                                            <button type="button" class="step-control-btn" data-prev-step="2"><i class="ph ph-arrow-left mr-1"></i> Previous</button>
+                                            <button type="button" class="step-control-btn next" data-next-step="4">Next: Final Consent Gates <i class="ph ph-arrow-right ml-1"></i></button>
                                         </div>
                                     </div>
 
-                                    <div class="mt-8 text-center">
-                                        <button type="submit" class="w-full md:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-indigo-500/50 display-font text-xl">
-                                            Submit Phase 1 & Generate SoulDeep Persona
-                                        </button>
-                                    </div>
+                                    <div class="form-step" data-step="4">
+                                        <h4 class="font-semibold text-indigo-700 mb-3 display-font border-b pb-2">Step 4: Critical Consent Gates</h4>
 
+                                        <div class="p-6 border border-red-300 rounded-lg bg-red-50 space-y-4">
+                                            <p class="text-sm text-red-800 font-bold">You must check all mandatory boxes below to submit data and activate the Conflict Mapping Protocol.</p>
+
+                                            <div class="flex items-start">
+                                                <input type="checkbox" id="b17_consent" name="b17_consent" class="mt-1 h-5 w-5 text-red-500 rounded border-gray-400 focus:ring-red-500" required>
+                                                <label for="b17_consent" class="ml-3 text-slate-800 text-sm leading-tight font-semibold">
+                                                    I explicitly consent to the use of my vulnerability data (The Seams) to simulate conflict for compatibility testing (B17: Informed Conflict Consent).
+                                                </label>
+                                            </div>
+
+                                            <div class="flex items-start">
+                                                <input type="checkbox" id="b7_liveness" name="b7_liveness" class="mt-1 h-5 w-5 text-red-500 rounded border-gray-400 focus:ring-red-500" required>
+                                                <label for="b7_liveness" class="ml-3 text-slate-800 text-sm leading-tight">
+                                                    I affirm I am a live person and consent to the mandatory liveness check (B7: Mandatory Liveness Check).
+                                                </label>
+                                            </div>
+
+                                            <div class="flex items-start">
+                                                <input type="checkbox" id="b19a_gate" name="b19a_gate" class="mt-1 h-5 w-5 text-red-500 rounded border-gray-400 focus:ring-red-500" required>
+                                                <label for="b19a_gate" class="ml-3 text-slate-800 text-sm leading-tight">
+                                                    I affirm the Identity Gate data (Age, Gender, Orientation) provided above is accurate (B19 A: Data Affirmation).
+                                                </label>
+                                            </div>
+
+                                            <div class="flex items-start">
+                                                <input type="checkbox" id="b19b_gate" name="b19b_gate" class="mt-1 h-5 w-5 text-purple-500 rounded border-gray-400 focus:ring-purple-500">
+                                                <label for="b19b_gate" class="ml-3 text-slate-800 text-sm leading-tight">
+                                                    I explicitly opt-in to the Premium 18+ Intimacy Package (B19 B: Intimacy Consent Gate).
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-8 flex justify-between">
+                                            <button type="button" class="step-control-btn" data-prev-step="3"><i class="ph ph-arrow-left mr-1"></i> Previous</button>
+                                            <button type="submit" class="md:w-auto px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-all shadow-lg hover:shadow-indigo-500/50 display-font text-xl">
+                                                Submit Phase 1 & Generate Persona
+                                            </button>
+                                        </div>
+                                    </div>
                                 </form>
 
                                 <div id="results" class="hidden mt-8 bg-emerald-50 p-6 md:p-8 rounded-xl shadow-lg border border-emerald-300">
@@ -445,23 +482,80 @@
             }
         }
 
-        function updateProgressUI(data) {
-            // This function is a placeholder for the final Firebase integration logic 
-            // which would update the UI based on user progress saved to Firestore.
-            // For the submission demonstration, we will skip it.
+        // --- Form Submission and Result Handling ---
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        function showStep(step) {
+            document.querySelectorAll('.form-step').forEach(el => {
+                if (parseInt(el.getAttribute('data-step')) === step) {
+                    el.classList.add('active');
+                } else {
+                    el.classList.remove('active');
+                }
+            });
+            currentStep = step;
+            // Update progress bar/text here if needed
         }
 
-        // --- Form Submission and Result Handling ---
+        function validateStep(step) {
+            const stepElement = document.querySelector(`.form-step[data-step="${step}"]`);
+            if (!stepElement) return true; // Should not happen
+
+            // Find all required inputs within the current step
+            const requiredInputs = stepElement.querySelectorAll('[required]');
+            let allValid = true;
+
+            requiredInputs.forEach(input => {
+                // Basic validation check
+                if (!input.value.trim()) {
+                    allValid = false;
+                    // Optional: Highlight the invalid input
+                    input.style.borderColor = 'red';
+                } else {
+                    input.style.borderColor = ''; // Reset border color
+                }
+            });
+
+            if (!allValid) {
+                showMessage('Please fill out all required fields in this section before proceeding.', true);
+            }
+            return allValid;
+        }
+
+
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('persona-form');
             const resultsDiv = document.getElementById('results');
 
-            // Ensure Phase 1 is open by default for the user to see the form
-            togglePhase('p1', 'icon-p1');
+            // Initialize the form to show Step 1
+            showStep(1);
+
+            // Add event listeners for Next/Previous buttons
+            document.querySelectorAll('.step-control-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const nextStep = e.target.getAttribute('data-next-step');
+                    const prevStep = e.target.getAttribute('data-prev-step');
+
+                    if (nextStep) {
+                        if (validateStep(currentStep)) {
+                            showStep(parseInt(nextStep));
+                        }
+                    } else if (prevStep) {
+                        showStep(parseInt(prevStep));
+                    }
+                });
+            });
+
 
             if (form) {
                 form.addEventListener('submit', async (e) => {
                     e.preventDefault();
+
+                    // Final check to ensure we are on the last step (Step 4) and it's valid
+                    if (!validateStep(4)) {
+                        return;
+                    }
 
                     const submitButton = form.querySelector('button[type="submit"]');
                     submitButton.textContent = 'Synthesizing Persona...';
